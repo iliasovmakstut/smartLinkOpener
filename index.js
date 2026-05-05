@@ -16,12 +16,12 @@ Button.onclick = () => {
 }
 
 linksArea.addEventListener('paste', (event)=>{
-    if(linksArea.value.length < 1) return;
-    let finalText = linksArea.value + '\n';
-    console.log(finalText);
-    linksArea.value = '';
-    linksArea.value = finalText;
-
-    linksArea.setSelectionRange(finalText.length, finalText.length);
-
+    setTimeout(() => {
+        if(linksArea.value.trim().length > 0){
+            if(!linksArea.value.endsWith('\n')){
+                linksArea.value += '\n';
+            }
+        }
+        linksArea.scrollTop = linksArea.scrollHeight;
+    }, 0);
 })
