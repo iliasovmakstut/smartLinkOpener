@@ -36,10 +36,14 @@ Button.onclick = () => {
 BackButton.onclick = () => {
     if(!localStorage.getItem('prevIndex')) return;
     let prevIndex = JSON.parse(localStorage.getItem('prevIndex'));
+    let historyLength = JSON.parse(localStorage.getItem('length'));
     let currentIndex = prevIndex - 1;
     console.log(prevIndex);
-    if(!localStorage.getItem(JSON.stringify(currentIndex)))
+    if(!localStorage.getItem(JSON.stringify(currentIndex))) {
+        linksArea.value = JSON.parse(localStorage.getItem(JSON.stringify(historyLength)));
+        localStorage.setItem("prevIndex", JSON.stringify(historyLength));
         return;
+    }
     linksArea.value = JSON.parse(localStorage.getItem(JSON.stringify(currentIndex)));
     localStorage.setItem("prevIndex", JSON.stringify(currentIndex));
 }
@@ -49,7 +53,11 @@ ForwardButton.onclick = () => {
     let prevIndex = JSON.parse(localStorage.getItem('prevIndex'));
     let currentIndex = prevIndex + 1;
     console.log(prevIndex);
-    if(!localStorage.getItem(JSON.stringify(currentIndex))) return;
+    if(!localStorage.getItem(JSON.stringify(currentIndex))) {
+        linksArea.value = JSON.parse(localStorage.getItem(JSON.stringify(1)));
+        localStorage.setItem("prevIndex", JSON.stringify(1));
+        return;
+    };
     linksArea.value = JSON.parse(localStorage.getItem(JSON.stringify(currentIndex)));
     localStorage.setItem("prevIndex", JSON.stringify(currentIndex));
 }
