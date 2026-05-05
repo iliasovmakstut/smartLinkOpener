@@ -1,0 +1,28 @@
+
+body{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+button {
+    background-color: black;
+    padding: 5px;
+    border-radius: 5px;
+    color: #eee;
+    cursor: pointer;
+}
+
+.button-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 5px 0 0 0;;
+}
+
+textarea {
+ padding: 5px 5px 10px 10px;
+ width: 100% - 5px;
+ min-height: 200px;
+ border-radius: 2px;
+ resize: none;
+}

@@ -14,3 +14,14 @@ Button.onclick = () => {
         }
     }
 }
+
+linksArea.addEventListener('paste', (event)=>{
+    if(linksArea.value.length < 1) return;
+    let finalText = linksArea.value + '\n';
+    console.log(finalText);
+    linksArea.value = '';
+    linksArea.value = finalText;
+
+    linksArea.setSelectionRange(finalText.length, finalText.length);
+
+})
