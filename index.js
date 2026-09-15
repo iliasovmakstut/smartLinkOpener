@@ -3,15 +3,16 @@ const BackButton = document.getElementById("getBackButton");
 const ForwardButton = document.getElementById("getForwardButton");
 const RemoveButton = document.getElementById("removeButton");
 
-const ClearHistoryButton = document.getElementById("clearHistoryButton");
+const containerDomenButtons = document.getElementById("domenButtons");
 
+const ClearHistoryButton = document.getElementById("clearHistoryButton");
+let linksFiltered = {};
 
 const linksArea = document.getElementById("linksArea");
 if(!localStorage.getItem('prevIndex')) localStorage.setItem('prevIndex', "0");
 if(!localStorage.getItem('length')) localStorage.setItem('length', "0");
 
 if(localStorage.getItem(localStorage.getItem('prevIndex'))) linksArea.value = JSON.parse(localStorage.getItem(localStorage.getItem('prevIndex')));
-    
 
 Button.onclick = () => {
     if(!localStorage.getItem('prevIndex')) localStorage.setItem('prevIndex', "0");
@@ -33,6 +34,10 @@ Button.onclick = () => {
     localStorage.setItem(JSON.stringify(prevIndex + 1), JSON.stringify(linksUnparsed));
 }
 
+linksArea.onchange = () => {
+filterArrayButtons();
+};
+
 BackButton.onclick = () => {
     if(!localStorage.getItem('prevIndex')) return;
     let prevIndex = JSON.parse(localStorage.getItem('prevIndex'));
@@ -46,6 +51,7 @@ BackButton.onclick = () => {
     }
     linksArea.value = JSON.parse(localStorage.getItem(JSON.stringify(currentIndex)));
     localStorage.setItem("prevIndex", JSON.stringify(currentIndex));
+    filterArrayButtons();
 }
 
 ForwardButton.onclick = () => {
@@ -60,6 +66,7 @@ ForwardButton.onclick = () => {
     };
     linksArea.value = JSON.parse(localStorage.getItem(JSON.stringify(currentIndex)));
     localStorage.setItem("prevIndex", JSON.stringify(currentIndex));
+    filterArrayButtons();
 }
 
 RemoveButton.onclick = () => {
@@ -92,3 +99,44 @@ linksArea.addEventListener('paste', (event)=>{
         linksArea.scrollTop = linksArea.scrollHeight;
     }, 0);
 })
+
+function filterArrayButtons() {
+ linksFiltered = {};
+ const linksUnparsed = linksArea.value;
+ const linksArray = linksUnparsed.split('\n');
+
+ linksArray.forEach((el) => {
+    if(el.includes(("http" && '/') || ("https" && '/'))) console.log()
+        else return
+    let domenName = el.split("/")[2].split('.')[0];
+    if(domenName == "www") domenName = el.split("/")[2].split('.')[1];
+    if(linksFiltered[domenName]) {
+         linksFiltered[domenName].links.push(el);
+    console.log(linksFiltered);
+    return;
+    }
+    linksFiltered[domenName] = {
+        name: domenName,
+        links: [el]
+    };
+    console.log(linksFiltered);
+ })
+containerDomenButtons.innerHTML = '';
+ Object.keys(linksFiltered).forEach((key) => {
+    const button = document.createElement('button');
+    button.id = key;
+    button.textContent = key;
+    containerDomenButtons.append(button);
+ });
+
+ console.log(containerDomenButtons.childNodes);
+ containerDomenButtons.childNodes.forEach((el) => {
+    el.onclick = () => {
+        linksFiltered[el.id].links.forEach(link => {
+            if(link.includes("https://") || link.includes("http://")){
+                window.open(link, '_blank');   
+            }
+        });
+    }
+ });
+}

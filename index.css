@@ -13,6 +13,12 @@ button {
     margin: 0 0 0 2px;
 }
 
+textarea {
+    background-color: #f6f6f6;
+    border-radius: 3px;
+    border: solid 2px;
+}
+
 .button-container {
     display: flex;
     align-items: center;
@@ -24,10 +30,34 @@ button {
     background-color: rgb(182, 0, 0);
 }
 
+#domenButtons {
+    padding: 5px 0;
+}
+
+#domenButtons button {
+    background-color: #eee;
+    color: #000;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    opacity: 0; 
+    transform: translate(-50px, -50px);
+    animation: buttonAnimation 0.5s 0.25s forwards;
+}
+
 textarea {
  padding: 5px 5px 10px 10px;
  width: 100% - 5px;
  min-height: 200px;
  border-radius: 2px;
  resize: none;
+}
+
+@keyframes buttonAnimation {
+    from {
+        opacity: 0;
+        transform: translate(-50px, -50px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(0px, 0px);
+    }
 }
