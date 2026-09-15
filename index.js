@@ -108,6 +108,7 @@ function filterArrayButtons() {
  linksArray.forEach((el) => {
     if(el.includes(("http" && '/') || ("https" && '/'))) console.log()
         else return
+    if(!el.split("/")[2].split('.')[0]) return;
     let domenName = el.split("/")[2].split('.')[0];
     if(domenName == "www") domenName = el.split("/")[2].split('.')[1];
     if(linksFiltered[domenName]) {
