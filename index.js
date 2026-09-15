@@ -2,6 +2,7 @@ const Button = document.getElementById("playButton");
 const BackButton = document.getElementById("getBackButton");
 const ForwardButton = document.getElementById("getForwardButton");
 const RemoveButton = document.getElementById("removeButton");
+const displayPageContainer = document.getElementsByClassName("dispaly-page__container")[0];
 
 const containerDomenButtons = document.getElementById("domenButtons");
 
@@ -125,19 +126,45 @@ function filterArrayButtons() {
 containerDomenButtons.innerHTML = '';
  Object.keys(linksFiltered).forEach((key) => {
     const button = document.createElement('button');
+    const input = document.createElement('input');
+    input.setAttribute("type", "range");
+    input.setAttribute("min", 0);
+    input.setAttribute("max", linksFiltered[key].links.length);
+    const container = document.createElement('div');
+    container.append(button);
+    container.append(input);
+
     button.id = key;
     button.textContent = key;
-    containerDomenButtons.append(button);
+    containerDomenButtons.append(container);
  });
 
  console.log(containerDomenButtons.childNodes);
  containerDomenButtons.childNodes.forEach((el) => {
-    el.onclick = () => {
-        linksFiltered[el.id].links.forEach(link => {
+    const button = el.getElementsByTagName("button")[0];
+    button.onclick = () => {
+        linksFiltered[button.id].links.forEach((link, index) => {
+            if(index > el.getElementsByTagName("input")[0].value - 1) return;
             if(link.includes("https://") || link.includes("http://")){
                 window.open(link, '_blank');   
             }
         });
     }
+    el.onmouseover = () => {
+        const page = document.createElement("iframe");
+        const linkNumber = document.createElement("div");
+        linkNumber.id = "linkNumber";
+        linkNumber.textContent = "#" + el.getElementsByTagName("input")[0].value;
+        let link = linksFiltered[button.id].links[el.getElementsByTagName("input")[0].value - 1];
+        if(link.includes("watch?v")) link = link.replace("watch?v", "embed/");
+        displayPageContainer.append(page);
+        displayPageContainer.append(linkNumber);
+        page.setAttribute("src", link);
+    }
+    el.onmouseout = () => {
+        displayPageContainer.innerHTML = '';
+    }
  });
+
+ 
 }
